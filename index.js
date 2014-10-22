@@ -29,4 +29,8 @@ app.get('/search/keyword/:keyword', function (req, res) {
 
 });
 
+app.get('/home', function(req,res) {
+  res.sendfile('public/index.html');
+});
+
 module.exports = app;
