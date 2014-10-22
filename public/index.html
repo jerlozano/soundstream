@@ -2,36 +2,7 @@
 <head>
     <title>Search Wiz</title>
 
-<style>
-
-    body {
-        padding:20px;
-        text-align: center;
-        font-family: sans-serif;
-    }
-    .content {
-        display:inline-block;
-    }
-    .search-input {
-        height:50px;
-        width:400px;
-        font-size:30px;
-
-    }
-    .search-button {
-        margin:30px;
-        height:50px;
-        width:400px;
-        font-size:30px;
-        background: white;
-        border: 1px solid #777;
-        border-radius: 5px;
-    }
-    .search-button:hover {
-        background: #f2f2f2;
-    }
-
-</style>
+<link rel="stylesheet" type="text/css" href="/style"></style>
 </head>
 <body>
 
@@ -45,14 +16,25 @@
 
     <div class="response"></div>
 </div>
+<div class="overlay start-hidden">
+    <div id="spinner"></div>
+</div>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 <script>
     $(function() {
 
-        $('.search-button').click(function(event) {
-            $('.response').html( '' );
+        $('.search-input').focus();
+
+        function doSearch() {
+
             var input = $('.search-input').val();
+
+            if(!input) {return false};
+
+            $('.response').html( '' );
+            $('.overlay').show();
+
             var searchType = $("input:radio[name ='searchtype']:checked").val();
             var url = (searchType === 'keyword') ? '/search/keyword/' + input : '/search/track/id/' + input;
 
@@ -69,8 +51,19 @@
                     })
                 }
                 $('.response').html( output );
+                $('.overlay').hide();
             });
+        };
 
+        $('.search-input').keyup(function(event){
+            var code = event.which; // recommended to use e.which, it's normalized across browsers
+            if(code==32||code==13||code==188||code==186){
+                doSearch();
+            }
+        });
+
+        $('.search-button').click(function() {
+            doSearch();
         });
 
     });
