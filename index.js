@@ -20,7 +20,7 @@ app.get('/search/track/id/:id', function (req, res) {
 
 });
 
-app.get('/search/track/keyword/:keyword', function (req, res) {
+app.get('/search/keyword/:keyword', function (req, res) {
 
   var keyword = req.params.keyword;
   console.log('searching for a track by keyword: ' + keyword);
