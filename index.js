@@ -33,4 +33,8 @@ app.get('/home', function(req,res) {
   res.sendfile('public/index.html');
 });
 
+app.get('/style', function(req,res) {
+  res.sendfile('public/style.css');
+});
+
 module.exports = app;
