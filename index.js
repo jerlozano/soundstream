@@ -1,8 +1,9 @@
 var express = require('express');
-var http = require('http');
-var app = express();
+var http   = require('http');
+var app    = express();
 var Search = require('./controllers/search');
 var logger = require('./common/logger');
+var path   = require('path');
 
 var search = new Search();
 search.initialize();
@@ -30,11 +31,11 @@ app.get('/search/keyword/:keyword', function (req, res) {
 });
 
 app.get('/home', function(req,res) {
-  res.sendFile('public/index.html');
+  res.sendFile(path.resolve('public/index.html'));
 });
 
 app.get('/style', function(req,res) {
-  res.sendFile('public/style.css');
+  res.sendFile(path.resolve('public/style.css'));
 });
 
 module.exports = app;
