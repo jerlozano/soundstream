@@ -1,5 +1,6 @@
 var app = require('./index');
+var logger = require('./common/logger');
 
 app.listen(3000, function() {
-  console.log('Server started on 0.0.0.0:3000');
+  logger.info('Server started on 0.0.0.0:3000');
 });
