@@ -1,11 +1,16 @@
 var assert  = require('assert');
 var request =  require('request');
+var freeport = require('freeport');
+var app = require('../index');
 
 describe('An HTTP Server', function () {
   var app;
 
   before(function() {
-    app = require('../index.js');
+    freeport(function(err, port) {
+      this.uri = 'http://localhost:' + port;
+      app.listen(port, done);
+    }.bind(this));
   });
 
   after(function() {
