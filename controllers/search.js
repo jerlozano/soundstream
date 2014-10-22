@@ -17,7 +17,7 @@ module.exports = function () {
     });
   };
 
-  module.getTrack = function(id, res) {
+  module.getTrackById = function(id, res) {
     SC.get('/tracks/' + id, function(err, track) {
       if ( err ) {
         throw err;

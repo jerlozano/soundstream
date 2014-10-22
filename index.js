@@ -13,11 +13,11 @@ app.get('/search', function (req, res) {
 
 });
 
-  app.get('/search/track', function (req, res) {
+  app.get('/search/track/id/:id', function (req, res) {
 
-  var id = req.param('id');
+  var id = req.params.id;
   search.initialize();
-  search.getTrack(id, res);
+  search.getTrackById(id, res);
 
 });
 
