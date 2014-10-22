@@ -30,11 +30,11 @@ app.get('/search/keyword/:keyword', function (req, res) {
 });
 
 app.get('/home', function(req,res) {
-  res.sendfile('public/index.html');
+  res.sendFile('public/index.html');
 });
 
 app.get('/style', function(req,res) {
-  res.sendfile('public/style.css');
+  res.sendFile('public/style.css');
 });
 
 module.exports = app;
