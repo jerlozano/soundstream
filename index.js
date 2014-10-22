@@ -5,11 +5,9 @@ var Search = require('./controllers/search');
 
 var search = new Search();
 
-app.get('/search', function (req, res) {
+app.get('/', function (req, res) {
 
-  console.log(req.route);
-  var filterParam = req.param('filter');
-  res.send('filtering by: ' + filterParam);
+  res.send('app is running');
 
 });
 

@@ -1,32 +1,30 @@
-var assert  = require('assert');
-var request =  require('request');
+var assert   = require('assert');
+var request  = require('request');
 var freeport = require('freeport');
-var app = require('../index');
+var app      = require('../index');
 
 describe('An HTTP Server', function () {
-  var app;
 
-  before(function() {
+  before(function(done) {
     freeport(function(err, port) {
       this.uri = 'http://localhost:' + port;
-      app.listen(port, done);
+      this.server = app.listen(port, done);
     }.bind(this));
   });
 
   after(function() {
-    app.server.close();
-  })
+    this.server.close();
+  });
 
   it('should make a request', function(done) {
 
-    request('http://localhost:3000/search?filter=artist', function(err, resp, body) {
+    request(this.uri, function(err, resp, body) {
       if (err) {
         throw err;
       }
 
-      // console.log(resp.)
-
       assert.equal(resp.statusCode, 200);
+      assert.equal('app is running', resp.body);
       console.log(resp);
       done();
     });
