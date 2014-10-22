@@ -23,5 +23,14 @@
   "bugs": {
     "url": "https://github.com/jeremycs/soundstream/issues"
   },
-  "homepage": "https://github.com/jeremycs/soundstream"
+  "homepage": "https://github.com/jeremycs/soundstream",
+  "dependencies": {
+    "express": "^4.9.8",
+    "soundcloud-node": "0.0.8"
+  },
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "mocha": "^2.0.0",
+    "request": "^2.45.0"
+  }
 }
