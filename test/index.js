@@ -2,6 +2,7 @@ var assert   = require('assert');
 var request  = require('request');
 var freeport = require('freeport');
 var app      = require('../index');
+var logger   = require('../common/logger');
 
 describe('An HTTP Server', function () {
 
@@ -25,7 +26,7 @@ describe('An HTTP Server', function () {
 
       assert.equal(resp.statusCode, 200);
       assert.equal('app is running', resp.body);
-      console.log(resp);
+      logger.info(resp);
       done();
     });
 
