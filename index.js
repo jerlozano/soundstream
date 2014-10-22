@@ -4,12 +4,19 @@ var http = require('http');
 var app = express();
 
 
-// app.route('/', function(req, res){
-//   res.send('hello');
-// });
+app.set('port', 3000);
 
-http.createServer(function(request, response) {
-  response.writeHead(200, {'Content-Type': 'text/html'});
-  response.write('<html><head></head><body>HELLO</body></html>');
-  response.end();
-}).listen(3000);
+
+app.get('/search', function (req, res) {
+  console.log(req.route);
+  var filterParam = req.param('filter');
+  res.send('filtering by: ' + filterParam);
+})
+
+
+var server = app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + server.address().port);
+});
+
+exports.app = app;
+exports.server = server;
