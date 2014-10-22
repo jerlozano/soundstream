@@ -24,5 +24,16 @@ module.exports = function () {
     });
   };
 
+  module.getTrackByKeyword = function(keyword, res) {
+    SC.get('/tracks?q=' + keyword, function(err, track) {
+      if ( err ) {
+        throw err;
+      } else {
+        console.log('track retrieved:', track);
+        res.send(track);
+      }
+    });
+  };
+
   return module;
 };
