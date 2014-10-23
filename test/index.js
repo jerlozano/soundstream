@@ -19,7 +19,7 @@ describe('An HTTP Server', function () {
 
   it('should make a request', function(done) {
 
-    request(this.uri, function(err, resp, body) {
+    request(this.uri + '/test', function(err, resp, body) {
       if (err) {
         throw err;
       }

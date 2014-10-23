@@ -4,5 +4,6 @@
   "redirectUri": "http://localhost:3000",
   "consoleLoggingLevel": "debug",
   "fileLoggingLevel": "debug",
-  "customApiUrl": "http://api.duckduckgo.com/?q="
+  "customApiUrl": "http://api.duckduckgo.com/?q=",
+  "regisrationEndpoint": "https://frozen-escarpment-1424.herokuapp.com/register"
 }

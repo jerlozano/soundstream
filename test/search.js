@@ -19,7 +19,7 @@ describe('An HTTP Server', function () {
 
   it('should make a request', function(done) {
 
-    request(this.uri + '/search/track/id/164497989', function(err, resp, body) {
+    request.post(this.uri + '/search/track', { id: '164497989' }, function(err, resp, body) {
       if (err) {
         throw err;
       }
