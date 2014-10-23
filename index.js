@@ -8,7 +8,7 @@ var app = express();
 var search = new Search();
 search.initialize();
 
-app.get('/', function (req, res) {
+app.get('/test', function (req, res) {
   res.send('app is running');
 });
 
@@ -24,7 +24,7 @@ app.get('/search/keyword/:keyword', function (req, res) {
   search.getTrackByKeyword(keyword, res);
 });
 
-app.get('/home', function(req,res) {
+app.get('/', function(req,res) {
   res.sendFile(path.resolve('public/index.html'));
 });
 
