@@ -30,7 +30,6 @@ app.post('/search', function (req, res) {
 
 });
 
-<<<<<<< HEAD
 app.post('/custom', function (req, res) {
 
   var keyword = req.param('q');
