@@ -44,10 +44,12 @@
             .done(function( data ) {
                 var output = '';
                 if(data.id) {
-                    output = '[' + data.title + ' ' + data.id + ']';
+                    var artUrl = data.artwork_url ? data.artwork_url : data.user.avatar_url;
+                    output = '<div class="track"><img src="' + artUrl + '"><br>' + data.id + ' ' + data.title + '</div>';
                 } else if(data.length){
                     _.each(data, function(song) {
-                        output += '[' + song.title + ' ' + song.id + ']';
+                        var artUrl = song.artwork_url ? song.artwork_url : song.user.avatar_url;
+                        output += '<div class="track"><img style="height:100px;width:100px;" src="' + artUrl + '"><br>' + song.id + ' ' + song.title + '</div>';
                     })
                 }
                 $('.response').html( output );

@@ -2,6 +2,14 @@ body {
     padding:20px;
     text-align: center;
     font-family: sans-serif;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffffff 0%,#e5e5e5 100%); /* W3C */
+
 }
 .content {
     display:inline-block;
@@ -10,7 +18,7 @@ body {
     height:50px;
     width:400px;
     font-size:30px;
-
+    text-align:center;
 }
 .search-button {
     margin:30px;
@@ -35,7 +43,18 @@ body {
     height: 4000px;
     text-align: center;
 }
-
+.track {
+    display: inline-block;
+    float:left;
+    height: 150px;
+    width: 120px;
+    margin: 15px;
+    overflow-y: hidden;
+}
+.track img {
+    height:100px;
+    width:100px;
+}
 #spinner {
     display:inline-block;
     margin-top:250px;
