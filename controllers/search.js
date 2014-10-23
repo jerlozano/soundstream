@@ -14,6 +14,16 @@ module.exports = function () {
     });
   };
 
+  module.getHomePage = function(request, reply) {
+    logger.info('home page served');
+    reply.file('public/index.html');
+  };
+
+  module.getStyles = function(request, reply) {
+    logger.info('styles served');
+    reply.file('public/style.css');
+  };
+
   module.getTrackById = function(id, reply) {
     SC.get('/tracks/' + id, function(err, track) {
       if ( err ) {

@@ -15,6 +15,25 @@ search.initialize();
 var Hapi = require('hapi');
 var server = new Hapi.Server(process.env.PORT || 3000);
 
+
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (request, reply) {
+      search.getHomePage(request, reply);
+      console.log('request for /');
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/style',
+    handler: function (request, reply) {
+      search.getStyles(request, reply);
+      console.log('request for /');
+    }
+});
+
 server.route({
     method: 'GET',
     path: '/search/track/id/{id?}',
