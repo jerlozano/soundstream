@@ -31,4 +31,32 @@ describe('An HTTP Server', function () {
 
   });
 
+  it('should make a request', function(done) {
+
+    request.post(this.uri + '/search', { q: 'pitbull' }, function(err, resp, body) {
+      if (err) {
+        throw err;
+      }
+
+      assert.equal(resp.statusCode, 200);
+      logger.info(resp);
+      done();
+    });
+
+  });
+
+  it('should make a request', function(done) {
+
+    request.post(this.uri + '/custom', { q: 'pitbull' }, function(err, resp, body) {
+      if (err) {
+        throw err;
+      }
+
+      assert.equal(resp.statusCode, 200);
+      logger.info(resp);
+      done();
+    });
+
+  });
+
 });
