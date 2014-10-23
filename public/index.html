@@ -57,7 +57,7 @@
 
         $('.search-input').keyup(function(event){
             var code = event.which; // recommended to use e.which, it's normalized across browsers
-            if(code==32||code==13||code==188||code==186){
+            if(code==13){
                 doSearch();
             }
         });
