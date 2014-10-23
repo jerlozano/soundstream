@@ -10,7 +10,7 @@ var app = express();
 var search = new Search();
 search.initialize();
 
-app.get('/', function (req, res) {
+app.get('/test', function (req, res) {
   res.send('app is running');
 });
 
@@ -30,6 +30,7 @@ app.post('/search', function (req, res) {
 
 });
 
+<<<<<<< HEAD
 app.post('/custom', function (req, res) {
 
   var keyword = req.param('q');
@@ -45,7 +46,7 @@ app.post('/custom', function (req, res) {
 
 })
 
-app.get('/home', function(req,res) {
+app.get('/', function(req,res) {
   res.sendFile(path.resolve('public/index.html'));
 });
 
