@@ -46,10 +46,11 @@
             $('.overlay').show();
 
             var searchType = $("input:radio[name ='searchtype']:checked").val();
-            var url = (searchType === 'keyword') ? '/search/keyword/' + input : '/search/track/id/' + input;
+            var url = (searchType === 'keyword') ? '/search/?q=' + input : '/search/track?id=' + input;
 
             $.ajax({
-              url: url
+              url: url,
+              type: 'post'
             })
             .error(function(){
                 $('.response').html( 'no results found' );
