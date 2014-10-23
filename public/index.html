@@ -32,6 +32,12 @@
             if(!input) {return false};
             input = input.replace(/ /g, '+');  // convert spaces to pluses
 
+            function isNumber(obj) { return !isNaN(parseFloat(obj)) };
+
+            if(isNumber(input)){
+                $('#by-id').attr('checked', 'checked');
+            }
+
             $('.response').html( '' );
             $('.overlay').show();
 
