@@ -29,8 +29,8 @@
         function doSearch() {
 
             var input = $('.search-input').val();
-
             if(!input) {return false};
+            input = input.replace(/ /g, '+');  // convert spaces to pluses
 
             $('.response').html( '' );
             $('.overlay').show();
