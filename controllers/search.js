@@ -14,26 +14,26 @@ module.exports = function () {
     });
   };
 
-  module.getTrackById = function(id, res) {
+  module.getTrackById = function(id, reply) {
     SC.get('/tracks/' + id, function(err, track) {
       if ( err ) {
         logger.error(err);
         throw err;
       } else {
         logger.info('track retrieved:', track);
-        res.send(track);
+        reply(track);
       }
     });
   };
 
-  module.getTrackByKeyword = function(keyword, res) {
+  module.getTrackByKeyword = function(keyword, reply) {
     SC.get('/tracks?q=' + keyword, function(err, track) {
       if ( err ) {
         logger.error(err);
         throw err;
       } else {
         logger.info('track retrieved:', track);
-        res.send(track);
+        reply(track);
       }
     });
   };
