@@ -2,6 +2,8 @@ var express = require('express');
 var logger  = require('./common/logger');
 var path    = require('path');
 var Search  = require('./controllers/search');
+var request = require('request');
+var config  = require('config');
 
 var app = express();
 
@@ -12,17 +14,36 @@ app.get('/', function (req, res) {
   res.send('app is running');
 });
 
-app.get('/search/track/id/:id', function (req, res) {
-  var id = req.params.id;
+app.post('/search/track', function (req, res) {
+
+  var id = req.param('id');
   logger.info('searching for a track by id: ' + id);
   search.getTrackById(id, res);
+
 });
 
-app.get('/search/keyword/:keyword', function (req, res) {
-  var keyword = req.params.keyword;
+app.post('/search', function (req, res) {
+
+  var keyword = req.param('q');
   logger.info('searching for a track by keyword: ' + keyword);
   search.getTrackByKeyword(keyword, res);
+
 });
+
+app.post('/custom', function (req, res) {
+
+  var keyword = req.param('q');
+  var apiUrl = config.customApiUrl;
+  logger.info('searching within ' + apiUrl +  ' for by keyword: ' + keyword);
+  request(apiUrl + keyword, function(err, resp, body) {
+    if (err) {
+      throw err;
+    }
+    logger.info(resp);
+    res.send(resp);
+  });
+
+})
 
 app.get('/home', function(req,res) {
   res.sendFile(path.resolve('public/index.html'));

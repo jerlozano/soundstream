@@ -3,5 +3,6 @@
   "clientSecret": "a811a4bc4e05c41ba9aaefec519227e3",
   "redirectUri": "http://localhost:3000",
   "consoleLoggingLevel": "debug",
-  "fileLoggingLevel": "debug"
+  "fileLoggingLevel": "debug",
+  "customApiUrl": "http://api.duckduckgo.com/?q="
 }
