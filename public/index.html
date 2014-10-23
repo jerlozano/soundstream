@@ -47,6 +47,10 @@
             $.ajax({
               url: url
             })
+            .error(function(){
+                $('.response').html( 'no results' );
+                $('.overlay').hide();
+            })
             .done(function( data ) {
                 var output = '';
                 if(data.id) {
