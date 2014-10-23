@@ -35,7 +35,11 @@
             function isNumber(obj) { return !isNaN(parseFloat(obj)) };
 
             if(isNumber(input)){
-                $('#by-id').attr('checked', 'checked');
+                $('#by-keyword').prop('checked', '');
+                $('#by-id').prop('checked', 'checked');
+            } else {
+                $('#by-id').prop('checked', '');
+                $('#by-keyword').prop('checked', 'checked');
             }
 
             $('.response').html( '' );
@@ -47,7 +51,11 @@
             $.ajax({
               url: url
             })
-            .done(function( data ) {
+            .error(function(){
+                $('.response').html( 'no results found' );
+                $('.overlay').hide();
+            })
+            .success(function( data ) {
                 var output = '';
                 if(data.id) {
                     var artUrl = data.artwork_url ? data.artwork_url : data.user.avatar_url;
@@ -57,6 +65,8 @@
                         var artUrl = song.artwork_url ? song.artwork_url : song.user.avatar_url;
                         output += '<div class="track"><img style="height:100px;width:100px;" src="' + artUrl + '"><br>' + song.id + ' ' + song.title + '</div>';
                     })
+                } else {
+                    output = 'no results found';
                 }
                 $('.response').html( output );
                 $('.overlay').hide();
