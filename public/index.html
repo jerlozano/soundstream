@@ -1,90 +1,107 @@
 <html>
 <head>
     <title>Search Wiz</title>
-
-<link rel="stylesheet" type="text/css" href="/style"></style>
+    <link rel="stylesheet" type="text/css" href="/style"></style>
 </head>
 <body>
+    <div class="content">
+        <input type="text" class="search-input" name="search"><br><br><br>
+        <input type="radio" id="by-keyword" name="searchtype" value="keyword" checked> by Keyword &nbsp; &nbsp;
+        <input type="radio" id="by-id" name="searchtype" value="id"> by Id<br>
+        <button class="search-button">Search</button>
+        <div class="response"></div>
+    </div>
+    <div class="overlay start-hidden">
+        <div id="spinner"></div>
+    </div>
 
-<div class="content">
-
-    <input type="text" class="search-input" name="search"><br><br><br>
-
-    <input type="radio" id="by-keyword" name="searchtype" value="keyword" checked> by Keyword &nbsp; &nbsp;
-    <input type="radio" id="by-id" name="searchtype" value="id"> by Id<br>
-    <button class="search-button">Search</button>
-
-    <div class="response"></div>
-</div>
-<div class="overlay start-hidden">
-    <div id="spinner"></div>
-</div>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 <script>
     $(function() {
 
-        $('.search-input').focus();
+        var Tracks = Backbone.Collection.extend({});
 
-        function doSearch() {
+        var View = Backbone.View.extend({
+            el: 'body',
 
-            var input = $('.search-input').val();
-            if(!input) {return false};
-            input = input.replace(/ /g, '+');  // convert spaces to pluses
+            events: {
+                'keyup .search-input': 'handleReturnPress',
+                'click .search-button': 'doSearch'
+            },
 
-            function isNumber(obj) { return !isNaN(parseFloat(obj)) };
+            initialize: function() {
+                this.collection = new Tracks;
+                this.listenTo(this.collection, 'sync add reset set change', this.onLoad);
+                setTimeout(function(){
+                    $('.search-input').focus();
+                },200);
+            },
 
-            if(isNumber(input)){
-                $('#by-keyword').prop('checked', '');
-                $('#by-id').prop('checked', 'checked');
-            } else {
-                $('#by-id').prop('checked', '');
-                $('#by-keyword').prop('checked', 'checked');
-            }
-
-            $('.response').html( '' );
-            $('.overlay').show();
-
-            var searchType = $("input:radio[name ='searchtype']:checked").val();
-            var url = (searchType === 'keyword') ? '/search/?q=' + input : '/search/track?id=' + input;
-
-            $.ajax({
-              url: url,
-              type: 'post'
-            })
-            .error(function(){
-                $('.response').html( 'no results found' );
-                $('.overlay').hide();
-            })
-            .success(function( data ) {
-                var output = '';
-                if(data.id) {
-                    var artUrl = data.artwork_url ? data.artwork_url : data.user.avatar_url;
-                    output = '<div class="track"><img src="' + artUrl + '"><br>' + data.id + ' ' + data.title + '</div>';
-                } else if(data.length){
-                    _.each(data, function(song) {
-                        var artUrl = song.artwork_url ? song.artwork_url : song.user.avatar_url;
-                        output += '<div class="track"><img style="height:100px;width:100px;" src="' + artUrl + '"><br>' + song.id + ' ' + song.title + '</div>';
-                    })
-                } else {
-                    output = 'no results found';
+            handleReturnPress: function(event){
+                var code = event.which;
+                if(code==13){
+                    this.doSearch();
                 }
-                $('.response').html( output );
-                $('.overlay').hide();
-            });
-        };
+            },
 
-        $('.search-input').keyup(function(event){
-            var code = event.which; // recommended to use e.which, it's normalized across browsers
-            if(code==13){
-                doSearch();
-            }
+            isNumberInput: function(input) {
+                var isNumber = !isNaN(parseFloat(input));
+                if(isNumber){
+                    this.$('#by-keyword').prop('checked', '');
+                    this.$('#by-id').prop('checked', 'checked');
+                } else {
+                    this.$('#by-id').prop('checked', '');
+                    this.$('#by-keyword').prop('checked', 'checked');
+                }
+                return isNumber;
+            },
+
+            clearResponse: function() {
+                this.$('.response').html('');
+            },
+
+            loadData:function() {
+                this.collection.url = this.url;
+                this.collection.fetch({type: 'POST'})
+                .error(function(){
+                    this.$('.response').html('no results found');
+                    this.$('.overlay').hide();
+                }.bind(this));
+            },
+
+            onLoad: function(bluh, duh) {
+                var output = '';
+
+                // needs to be refactoerd to spit out backbone subviews
+                if(this.collection.length === 1) {
+                    var data = this.collection.models[0];
+                    var artUrl = data.get('artwork_url') ? data.get('artwork_url') : data.get('user').avatar_url;
+                    output = '<div class="track"><img src="' + artUrl + '"><br>' + data.get('id') + ' ' + data.get('title') + '</div>';
+                } else if(this.collection.length > 1){
+                    _.each(this.collection.models, function(song) {
+                        var artUrl = song.get('artwork_url') ? song.get('artwork_url') : song.get('user').avatar_url;
+                        output += '<div class="track"><img src="' + artUrl + '"><br>' + song.get('id') + ' ' + song.get('title') + '</div>';
+                    })
+                }
+
+                this.$('.response').html( output );
+                this.$('.overlay').hide();
+            },
+
+            doSearch: function() {
+                var input = $('.search-input').val();
+                if(!input) {return false};
+                input = input.replace(/ /g, '+');  // convert spaces to pluses
+
+                this.clearResponse();
+                this.$('.overlay').show();
+                this.url = (!this.isNumberInput(input)) ? '/search/?q=' + input : '/search/track?id=' + input;
+                this.loadData();
+            },
         });
-
-        $('.search-button').click(function() {
-            doSearch();
-        });
-
+        var view = new View({});
     });
 </script>
 
