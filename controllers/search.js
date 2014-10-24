@@ -18,7 +18,7 @@ module.exports = function () {
     SC.get('/tracks/' + id, function(err, track) {
       if ( err ) {
         logger.error(err);
-        throw err;
+        res.sendStatus(err);
       } else {
         logger.info('track retrieved:', track);
         res.send(track);
@@ -30,7 +30,7 @@ module.exports = function () {
     SC.get('/tracks?q=' + keyword, function(err, track) {
       if ( err ) {
         logger.error(err);
-        throw err;
+        res.sendStatus(err);
       } else {
         logger.info('track retrieved:', track);
         res.send(track);
