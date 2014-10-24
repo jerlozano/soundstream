@@ -44,7 +44,7 @@
                 this.listenTo(this.collection, 'sync', this.onLoad); // add reset set change
                 setTimeout(function(){
                     this.$('.search-input').focus();
-                }.bind(this),200);
+                }.bind(this), 200);
             },
 
             handleReturnPress: function(event){
@@ -100,7 +100,7 @@
             doSearch: function() {
                 var input = $('.search-input').val();
                 if(!input) {return false};
-                input = input.replace(/ /g, '+');  // convert spaces to pluses
+                input = input.replace(/ /g, '%2B');  // convert spaces to pluses
 
                 this.clearModels();
                 this.$('.overlay').show();
