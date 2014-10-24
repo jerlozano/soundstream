@@ -5,5 +5,12 @@
   "consoleLoggingLevel": "debug",
   "fileLoggingLevel": "debug",
   "customApiUrl": "http://api.duckduckgo.com/?q=",
-  "regisrationEndpoint": "https://frozen-escarpment-1424.herokuapp.com/register"
+  "registrationTeamId": 2,
+  "registrationEndpoint": "https://frozen-escarpment-1424.herokuapp.com/register",
+  "registrationSearchPath": "/search",
+  "registrationHttpMethod": "POST",
+  "registrationContentType": "application/json",
+  "registrationRequiredParams": {
+    "q": "substack"
+  }
 }

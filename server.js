@@ -1,8 +1,16 @@
 var app = require('./index');
 var logger = require('./common/logger');
+var Register = require('./common/register');
+register = new Register();
 
 var envPort = process.env.PORT || 3000;
 
-app.listen(envPort, function() {
-  logger.info('Server started on 0.0.0.0:' + envPort);
+var server = app.listen(envPort, function() {
+  logger.info('Server started on ' + server.address().address + ':' + server.address().port);
+
+  //Register with the aggregator
+  var endpoint = '' + server.address().address + ':' + server.address().port;
+  register.register(endpoint);
+
 });
+
