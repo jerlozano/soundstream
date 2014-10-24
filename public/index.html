@@ -35,8 +35,8 @@
                 this.collection = new Tracks;
                 this.listenTo(this.collection, 'sync add reset set change', this.onLoad);
                 setTimeout(function(){
-                    $('.search-input').focus();
-                },200);
+                    this.$('.search-input').focus();
+                }.bind(this),200);
             },
 
             handleReturnPress: function(event){
@@ -71,10 +71,9 @@
                 }.bind(this));
             },
 
-            onLoad: function(bluh, duh) {
-                var output = '';
-
+            onLoad: function() {
                 // needs to be refactoerd to spit out backbone subviews
+                var output = '';
                 if(this.collection.length === 1) {
                     var data = this.collection.models[0];
                     var artUrl = data.get('artwork_url') ? data.get('artwork_url') : data.get('user').avatar_url;
@@ -85,7 +84,6 @@
                         output += '<div class="track"><img src="' + artUrl + '"><br>' + song.get('id') + ' ' + song.get('title') + '</div>';
                     })
                 }
-
                 this.$('.response').html( output );
                 this.$('.overlay').hide();
             },
