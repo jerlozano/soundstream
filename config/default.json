@@ -6,7 +6,7 @@
   "fileLoggingLevel": "debug",
   "customApiUrl": "http://api.duckduckgo.com/?q=",
   "registrationTeamId": 2,
-  "registrationEndpoint": "https://frozen-escarpment-1424.herokuapp.com/register",
+  "registrationEndpoint": "https://cs-aggregation.herokuapp.com/register",
   "registrationSearchPath": "/search",
   "registrationHttpMethod": "POST",
   "registrationContentType": "application/json",
