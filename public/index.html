@@ -22,7 +22,17 @@
     $(function() {
         var Tracks = Backbone.Collection.extend({});
 
-        var View = Backbone.View.extend({
+        var TrackView = Backbone.View.extend({
+            render: function() {
+                console.log('track rendering');
+                var artUrl = this.model.get('artwork_url') ? this.model.get('artwork_url') : this.model.get('user').avatar_url;
+                var output = '<div class="track"><img src="' + artUrl + '"><br>' + this.model.get('id') + ' ' + this.model.get('title') + '</div>';
+                this.$el.html(output);
+                return this;
+            }
+        });
+
+        var MainView = Backbone.View.extend({
             el: 'body',
 
             events: {
@@ -32,7 +42,7 @@
 
             initialize: function() {
                 this.collection = new Tracks;
-                this.listenTo(this.collection, 'sync add reset set change', this.onLoad);
+                this.listenTo(this.collection, 'sync', this.onLoad); // add reset set change
                 setTimeout(function(){
                     this.$('.search-input').focus();
                 }.bind(this),200);
@@ -57,7 +67,14 @@
                 return isNumber;
             },
 
-            clearResponse: function() {
+            clearModels: function() {
+                if(this.trackViews && this.trackViews.length) {
+                    _.each(this.trackViews, function(trackView){
+                        trackView.remove();
+                    });
+                } else {
+                    this.trackViews = [];
+                }
                 this.$('.response').html('');
             },
 
@@ -71,20 +88,14 @@
             },
 
             onLoad: function() {
-                // needs to be refactoerd to spit out backbone subviews
-                var output = '';
-                if(this.collection.length === 1) {
-                    var data = this.collection.models[0];
-                    var artUrl = data.get('artwork_url') ? data.get('artwork_url') : data.get('user').avatar_url;
-                    output = '<div class="track"><img src="' + artUrl + '"><br>' + data.get('id') + ' ' + data.get('title') + '</div>';
-                } else if(this.collection.length > 1){
-                    _.each(this.collection.models, function(song) {
-                        var artUrl = song.get('artwork_url') ? song.get('artwork_url') : song.get('user').avatar_url;
-                        output += '<div class="track"><img src="' + artUrl + '"><br>' + song.get('id') + ' ' + song.get('title') + '</div>';
-                    })
-                }
-                this.$('.response').html( output );
                 this.$('.overlay').hide();
+                if(this.collection.length) {
+                    _.each(this.collection.models, function(model){
+                        var trackView = new TrackView({model:model});
+                        this.trackViews.push(trackView);
+                        this.$('.response').append(trackView.render().el);
+                    }.bind(this));
+                }
             },
 
             doSearch: function() {
@@ -92,14 +103,14 @@
                 if(!input) {return false};
                 input = input.replace(/ /g, '+');  // convert spaces to pluses
 
-                this.clearResponse();
+                this.clearModels();
                 this.$('.overlay').show();
                 this.url = (!this.isNumberInput(input)) ? '/search/?q=' + input : '/search/track?id=' + input;
                 this.loadData();
             },
         });
 
-        var view = new View({});
+        var mainView = new MainView({});
     });
 </script>
 
